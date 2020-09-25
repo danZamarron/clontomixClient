@@ -49,8 +49,8 @@ const LayoutApp = ({children}) => {
                 <Link to="/" icon={<LogoutOutlined />}onClick={logoutProcess}>logout</Link>
               </Menu.Item>}
               {user && (user.roleType === "Editor" || user.roleType === "Admin") && <SubMenu key="sub1" icon={<UserOutlined />} title="User">
+                <Menu.Item key="11"><Link to='/listNoticias'>Mis Noticias</Link></Menu.Item>
                 <Menu.Item key="10"><Link to='/newNoticia'>Nueva Noticia</Link></Menu.Item>
-                <Menu.Item key="11">Bill</Menu.Item>
                 <Menu.Item key="12">Alex</Menu.Item>
               </SubMenu>}
               {/*<SubMenu key="sub2" icon={<TeamOutlined />} title="Team">

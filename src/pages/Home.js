@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react'
+import { Link } from "react-router-dom"
 import { useSWRInfinite } from "swr"
 
 const fetcher = url => fetch(url).then(r => r.json())
@@ -29,7 +30,7 @@ const Home = () => {
             <div>
             <h1>Rick and Morty infinite Scroll</h1>
                 {news?.flat()?.map(cNews => (
-                    <h4 key={cNews._id}>{cNews.titulo}</h4>
+                    <h4 key={cNews._id}><Link to={`/noticia/${cNews._id}`}>{cNews.titulo}</Link></h4>                    
                 ))}
             </div>
             <div>

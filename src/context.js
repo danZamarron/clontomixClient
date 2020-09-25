@@ -13,7 +13,6 @@ export default function Provider({ children }) {
       const {
         data: { user }
       } = await getCurrentUserService()
-      console.log(user)
       setCtxUser(user)
     }
     profile()
@@ -21,7 +20,6 @@ export default function Provider({ children }) {
 
   useEffect(() => {
     
-    console.log(user)
     if(!user)
       console.log(`Se logeo el user ${user}`)
     else

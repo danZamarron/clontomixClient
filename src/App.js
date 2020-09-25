@@ -7,13 +7,14 @@ import {
   SignUp,
   Login,
   Home,
-  NewNoticia
+  NewNoticia,
+  EditNoticia,
+  ListNoticias,
+  Noticia
 } from "./pages/index"
 
 
 const Profile = () => <h1>Profile</h1>
-const ListNoticias = () => <h1>ListNoticias</h1>
-const EditNoticia = () => <h1>Edit Noticias</h1>
 const Logout = () => <h1>ya te logeaste</h1>
 
 function App() {
@@ -26,8 +27,9 @@ function App() {
           <Route exact path='/login' component={Login} />
           <Route exact path='/profile' component={Profile} />
           <Route exact path='/newNoticia' component={NewNoticia} />
-          <Route exact path='/listNoticias/' component={ListNoticias} />
           <Route exact path='/editNoticia/:noticiaId' component={EditNoticia} />
+          <Route exact path='/listNoticias' component={ListNoticias} />
+          <Route exact path='/noticia/:noticiaId' component={Noticia} />
           <Route exact path='/logout' component={Logout} />
           <Route component={Logout} />
         </Switch>
