@@ -4,6 +4,11 @@ import { useSWRInfinite } from "swr"
 
 const fetcher = url => fetch(url).then(r => r.json())
 const PAGE_SIZE = 10;
+let baseURL;
+process.env.NODE_ENV === "production"
+? (baseURL = process.env.REACT_APP_REMOTEURL)
+: (baseURL = process.env.REACT_APP_LOCALHOST)
+console.log(baseURL)
 
 const Home = () => {
     
@@ -11,7 +16,7 @@ const Home = () => {
         if (previousPageData && previousPageData.length === 0) 
             return null
 
-        return `http://localhost:4000/api/noticia/pagination?page=${index}`
+        return `${baseURL}api/noticia/pagination?page=${index}`
     }, fetcher)
 
     const news = data ? data.map(({ noticias }) => noticias) : []

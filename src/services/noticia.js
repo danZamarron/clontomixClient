@@ -3,8 +3,10 @@ import axios from "axios"
 let baseURL;
 
 process.env.NODE_ENV === "production"
-  ? (baseURL = "https://murmuring-reaches-95521.herokuapp.com")
-  : (baseURL = "http://localhost:4000/api/noticia")
+  ? (baseURL = process.env.REACT_APP_REMOTEURL)
+  : (baseURL = process.env.REACT_APP_LOCALHOST)
+
+baseURL = baseURL + "api/noticia"
   
 const service = axios.create({ withCredentials: true, baseURL })
 
@@ -33,7 +35,7 @@ export const addNoticiaService = async noticia => {
 }
 
 export const getNoticiaService = async noticiaId => {
-    return await service.get(`/edit/${noticiaId}`).catch(err => {
+    return await service.get(`/detail/${noticiaId}`).catch(err => {
         return {message: err.response?.data?.message, status: err?.status}
     })
 }
@@ -46,6 +48,18 @@ export const editNoticiaService = async noticia => {
 
 export const deleteNoticiaService = async noticiaId => {
   return await service.delete(`/delete/${noticiaId}`).catch(err => {
+      return {message: err.response?.data?.message, status: err?.status}
+  })
+}
+
+export const getAllNoticiasNotApprovedService = async () => {
+  return await service.get(`/notApproved`).catch(err => {
+      return {message: err.response?.data?.message, status: err?.status}
+  })
+}
+
+export const approveNoticiaService = async noticiaId => {
+  return await service.put(`/approved/${noticiaId}`).catch(err => {
       return {message: err.response?.data?.message, status: err?.status}
   })
 }

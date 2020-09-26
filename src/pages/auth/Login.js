@@ -1,15 +1,22 @@
 import React, {useState, useContext} from 'react'
-import { Form, Input, Button, Divider, Row, Col, Typography} from 'antd';
+import { Form, Input, Button, Divider, Row, Col, Typography, message} from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import {loginService} from "../../services/auth"
 import { MyContext } from "../../context"
 
 let baseURL
 const { Title } = Typography;
+const successMsg = (username) => message.success(`Gracias por entrar ${username}`);
+
+// process.env.NODE_ENV === "production"
+//   ? (baseURL = "https://murmuring-reaches-95521.herokuapp.com")
+//   : (baseURL = "http://localhost:4000")
 
 process.env.NODE_ENV === "production"
-  ? (baseURL = "https://murmuring-reaches-95521.herokuapp.com")
-  : (baseURL = "http://localhost:4000")
+  ? (baseURL = process.env.REACT_APP_REMOTEURL)
+  : (baseURL = process.env.REACT_APP_LOCALHOST)
+
+    
 
 
   const tailFormItemLayout = {
@@ -37,6 +44,7 @@ const Login = (props) => {
             if(result.status === 200){
                 result.data.password = "";
                 setCtxUser(result.data)
+                successMsg(result.data.username);
                 props.history.push("/")
             }
             else

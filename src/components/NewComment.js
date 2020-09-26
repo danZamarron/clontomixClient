@@ -1,10 +1,11 @@
 import React, {useState, useEffect,forwardRef, useImperativeHandle} from 'react'
-import { Form, Button, Input, Select, Row, Col, Typography } from "antd"
+import { Form, Button, Input, Select, Row, Col, Typography, message } from "antd"
 import axios from "axios" 
 import {addComentarioService} from "../services/comentario"
 
 const { TextArea } = Input;
 const { Title } = Typography;
+const successMsg = () => message.success('Se agrego el comentario satisfactoriamente');
 
 const tailFormItemLayout = {    
       xs: {
@@ -18,7 +19,7 @@ const tailFormItemLayout = {
   };
 
 const NewComment = forwardRef((props, ref) => {
-    const {noticiaId, titulo} = props;
+    const {noticiaId, titulo, closeModal, addedComment} = props;
     const [form] = Form.useForm()
     const [showErrors, setShowErrors] = useState(false)
     const [showMsg, setShowMsg] = useState("")
@@ -42,9 +43,12 @@ const NewComment = forwardRef((props, ref) => {
 
       async function submitFormFromChild(values){        
         setShowErrors(false)
-        let result = await addComentarioService(values)
-        if(result.status === 201 || result.status === 200)
-            alert("Todo bien")
+        let result = await addComentarioService(noticiaId, values)
+        if(result.status === 201 || result.status === 200){
+            successMsg();
+            closeModal(false)
+            addedComment(true)
+        }
         else
         {
             console.log(result)

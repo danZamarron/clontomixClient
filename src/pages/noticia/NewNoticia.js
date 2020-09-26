@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Form, Input, Button, Row, Col, Typography, DatePicker, Select} from 'antd'; 
+import {Form, Input, Button, Row, Col, Typography, DatePicker, Select, message, Space} from 'antd'; 
 import {addNoticiaService} from "../../services/noticia"
 import moment from "moment"
 
@@ -8,6 +8,8 @@ const { Option } = Select
 const { Title } = Typography;
 const dateFormat = 'DD/MM/YYYY';
 const currentDate = moment().format(dateFormat)
+const successMsg = () => message.success('Se agrego la noticia satisfactoriamente');
+
 
 const tailFormItemLayout = {
   wrapperCol: {
@@ -23,7 +25,7 @@ const tailFormItemLayout = {
 };
 
 
-const NewNoticia = () => {
+const NewNoticia = (props) => {
     const [form] = Form.useForm();
     const [showErrors, setShowErrors] = useState(false)
     const [showMsg, setShowMsg] = useState("")
@@ -31,8 +33,10 @@ const NewNoticia = () => {
     const onFinish = async values => {
         setShowErrors(false)
         let result = await addNoticiaService(values)
-        if(result.status === 200)
-            alert("Todo bien")
+        if(result.status === 200 || result.status === 201){
+            successMsg();
+            props.history.push("/")
+        }
         else
         {
             console.log(result)
@@ -82,9 +86,10 @@ const NewNoticia = () => {
             <Form.Item
                 name="tipoNoticia"
                 label="Tipo de Noticia"
+                initialValue="Editorial"
                 rules={[{ required: true, message: 'Es necesario escoger un tipo' }]}
             >
-                    <Select defaultValue="Editorial">
+                    <Select >
                         <Option value="Editorial">Editorial</Option>
                         <Option value="Rumor">Rumor</Option>
                         <Option value="Review">Review </Option>

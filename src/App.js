@@ -10,12 +10,11 @@ import {
   NewNoticia,
   EditNoticia,
   ListNoticias,
-  Noticia
+  Noticia,
+  Profile,
+  AprobarNoticia
 } from "./pages/index"
 
-
-const Profile = () => <h1>Profile</h1>
-const Logout = () => <h1>ya te logeaste</h1>
 
 function App() {
   return (
@@ -30,8 +29,8 @@ function App() {
           <Route exact path='/editNoticia/:noticiaId' component={EditNoticia} />
           <Route exact path='/listNoticias' component={ListNoticias} />
           <Route exact path='/noticia/:noticiaId' component={Noticia} />
-          <Route exact path='/logout' component={Logout} />
-          <Route component={Logout} />
+          <Route exact path='/admin/aprobarNoticia' component={AprobarNoticia} />
+
         </Switch>
       </LayoutApp>
   </Router>

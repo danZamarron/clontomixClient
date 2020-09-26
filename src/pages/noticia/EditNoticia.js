@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react'
-import {Form, Input, Button, Row, Col, Typography, DatePicker, Select} from 'antd'; 
+import {Form, Input, Button, Row, Col, Typography, DatePicker, Select, message} from 'antd'; 
 import {getNoticiaService, editNoticiaService} from "../../services/noticia"
 import moment from "moment"
-import Moment from "react-moment"
 
 const { TextArea } = Input;
 const { Option } = Select
 const { Title, Text} = Typography;
 const dateFormat = 'DD/MM/YYYY';
 const currentDate = moment().format(dateFormat)
+const successMsg = () => message.success('Se edito la noticia satisfactoriamente');
 
 const tailFormItemLayout = {
   wrapperCol: {
@@ -34,8 +34,10 @@ const EditNoticia = (props) => {
     const onFinish = async values => {
         setShowErrors(false)
         let result = await editNoticiaService({...values,noticiaId})
-        if(result.status === 201)
-            alert("Todo bien")
+        if(result.status === 201){
+            successMsg();
+            props.history.push("/listNoticias")
+        }
         else
         {
             console.log(result)

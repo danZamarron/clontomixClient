@@ -3,14 +3,16 @@ import axios from "axios"
 let baseURL;
 
 process.env.NODE_ENV === "production"
-  ? (baseURL = "https://murmuring-reaches-95521.herokuapp.com")
-  : (baseURL = "http://localhost:4000/auth")
+? (baseURL = process.env.REACT_APP_REMOTEURL)
+: (baseURL = process.env.REACT_APP_LOCALHOST)
+
+baseURL = baseURL + "api/comentario"
   
 const service = axios.create({ withCredentials: true, baseURL })
 
 
-export const addComentarioService = async noticia => {
-    return await service.post("/", noticia).catch(err => {
+export const addComentarioService = async (noticiaId, comentario) => {
+    return await service.post(`/${noticiaId}`, comentario).catch(err => {
         return {message: err.response?.data?.message, status: err?.status}
     })
 }

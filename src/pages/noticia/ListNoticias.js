@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { Link } from "react-router-dom"
-import { Table, Space, Modal, Button } from 'antd';
+import { Table, Space, Modal, Button, Row, Col, Typography } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import {getAllNoticiasByUserParamService, deleteNoticiaService } from "../../services/noticia"
 import { MyContext } from "../../context"
@@ -9,6 +9,19 @@ import moment from "moment"
 const dateFormat = 'DD/MM/YYYY';
 const { Column } = Table;
 const { confirm } = Modal;
+const { Title } = Typography;
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 12,
+      offset: 6,
+    },
+  },
+};
 
 async function deleteNoticia(noticiaId)
 {
@@ -57,7 +70,12 @@ const ListNoticias = () => {
 
     return (
         <div>
-        {
+            <Row justify="center" gutter={24}>
+                <Col {...tailFormItemLayout}>
+                    <Title level={3}>Mis noticias publicadas</Title>
+                </Col>
+            </Row>
+        {            
             (!noticiasByUser) ? (<h1>Hola</h1>) : 
             (
             <Table key={"x"} rowKey={record => record._id} dataSource={noticiasByUser}>
