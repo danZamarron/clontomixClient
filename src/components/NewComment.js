@@ -1,22 +1,10 @@
 import React, {useState, useEffect,forwardRef, useImperativeHandle} from 'react'
-import { Form, Button, Input, Select, Row, Col, Typography, message } from "antd"
-import axios from "axios" 
+import { Form, Input, Row, Col, Typography, message } from "antd"
 import {addComentarioService} from "../services/comentario"
 
 const { TextArea } = Input;
 const { Title } = Typography;
 const successMsg = () => message.success('Se agrego el comentario satisfactoriamente');
-
-const tailFormItemLayout = {    
-      xs: {
-        span: 24,
-        offset: 0,
-      },
-      sm: {
-        span: 12,
-        offset: 6,
-      }    
-  };
 
 const NewComment = forwardRef((props, ref) => {
     const {noticiaId, titulo, closeModal, addedComment} = props;

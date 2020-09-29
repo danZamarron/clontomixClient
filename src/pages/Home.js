@@ -1,12 +1,14 @@
 import React, {useEffect} from 'react'
-import { Link } from "react-router-dom"
+import {Typography, Row, Col} from "antd"
 import { useSWRInfinite } from "swr"
+import NewsTemplate from "../components/NewsTemplate"
 
+const { Title } = Typography;
 const fetcher = url => fetch(url).then(r => r.json())
 const PAGE_SIZE = 10;
 let baseURL;
 process.env.NODE_ENV === "production"
-? (baseURL = process.env.REACT_APP_REMOTEURL)
+? (baseURL = process.env.REMOTEURL)
 : (baseURL = process.env.REACT_APP_LOCALHOST)
 console.log(baseURL)
 
@@ -28,22 +30,31 @@ const Home = () => {
                           (data && data?.length < PAGE_SIZE);
     
     console.log(news)
+                        /* <h4 key={cNews._id}><Link to={`/noticia/${cNews._id}`}>{cNews.titulo}</Link></h4> 
+                         
+                         */
     return !data ? (
         <p>Loading...</p>
       ) : (
         <>
             <div>
-            <h1>Rick and Morty infinite Scroll</h1>
+                <Row justify="center" gutter={30}>
+                    <Col just>
+                        <Title level={1}>Noticias:</Title>
+                    </Col>
+                </Row>
+
                 {news?.flat()?.map(cNews => (
-                    <h4 key={cNews._id}><Link to={`/noticia/${cNews._id}`}>{cNews.titulo}</Link></h4>                    
+                    <NewsTemplate news={cNews}></NewsTemplate>
+                   
                 ))}
             </div>
             <div>
-            {isLoadingMore
-            ? "loading..."
-            : isReachingEnd
-            ? "no more issues"
-            : "load more"}
+                {isLoadingMore
+                ? "loading..."
+                : isReachingEnd
+                ? "no more issues"
+                : "load more"}
             </div>
         </>
       )

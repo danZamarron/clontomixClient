@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import { Layout, Menu, message} from 'antd';
+import { Layout, Menu, message, Col, Row, Typography} from 'antd';
 import { Link, NavLink } from "react-router-dom"
 import {
   DesktopOutlined,
@@ -62,7 +62,11 @@ const LayoutApp = ({children}) => {
           </Sider>
           <Layout className="site-layout">
             <Header className="site-layout-background" style={{ padding: 0, backgroundColor: 'rgb(100,100,100,1)' }}>
-                Aqui va el header
+                <Row justify = "center" align="middle">
+                  <Col>
+                    <Typography.Title level={1} style={{color:"White"}}>ClonTomix</Typography.Title>
+                  </Col>
+                </Row>
             </Header>
             <Content style={{ margin: '0 16px' }}>
               <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
