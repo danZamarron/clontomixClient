@@ -53,19 +53,17 @@ const LayoutApp = ({children}) => {
               {user && <Menu.Item key="4" icon={<DesktopOutlined />}>
                 <Link to='/profile'>Mi Perfil</Link>
               </Menu.Item>}
-              {user && <Menu.Item key="5" icon={<LogoutOutlined />}>
-                <Link to="/" icon={<LogoutOutlined />}onClick={logoutProcess}>logout</Link>
-              </Menu.Item>}
-              {user && (user.roleType === "Editor" || user.roleType === "Admin") && <SubMenu key="sub1" icon={<UserOutlined />} title="User">
+              {user && (user.roleType === "Editor" || user.roleType === "Admin") && <SubMenu key="sub1" icon={<UserOutlined />} title="Menu de Editor">
                 <Menu.Item key="101"><Link to='/listNoticias'>Mis Noticias</Link></Menu.Item>
                 <Menu.Item key="100"><Link to='/newNoticia'>Nueva Noticia</Link></Menu.Item>
-                <Menu.Item key="102">Alex</Menu.Item>
               </SubMenu>}
-              {user && user.roleType === "Admin" && <SubMenu key="sub2" icon={<UserOutlined />} title="Admin Menu">
+              {user && user.roleType === "Admin" && <SubMenu key="sub2" icon={<UserOutlined />} title="Menu de Admin">
                 <Menu.Item key="200"><Link to='/admin/aprobarNoticia'>Aprobar Noticia</Link></Menu.Item>
                 <Menu.Item key="201"><Link to='/admin/destacarNoticia'>Destacar Noticia</Link></Menu.Item>
               </SubMenu>}
-              <Menu.Item key="9" icon={<FileOutlined />}><Link to='/logout'>Algo aqui</Link></Menu.Item>
+              {user && <Menu.Item key="5" icon={<LogoutOutlined />}>
+                <Link to="/" icon={<LogoutOutlined />}onClick={logoutProcess}>Cerrar Sesion</Link>
+              </Menu.Item>}
             </Menu>
           </Sider>
           <Layout className="site-layout" style={{ marginLeft: 200 }}>

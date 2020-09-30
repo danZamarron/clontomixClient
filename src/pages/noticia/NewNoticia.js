@@ -42,7 +42,7 @@ const NewNoticia = (props) => {
     const onFinish = async values => {
         setShowErrors(false)
 
-        if(arrayImgUrl.length === 0 && values.tipoPresentacion === "Imagen")
+        if(arrayImgUrl.length === 0)
         {            
             setShowErrors(true)
             setShowMsg("Es necesario agregar imagenes")

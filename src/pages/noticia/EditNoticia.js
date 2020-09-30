@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
-import {Form, Input, Button, Row, Col, Typography, DatePicker, Select, message} from 'antd'; 
+import {Form, Input, Button, Row, Col, Typography, DatePicker, Select, message, Radio} from 'antd'; 
 import UploadPhotos from "../../components/UploadPhotos"
 import {getNoticiaService, editNoticiaService} from "../../services/noticia"
 import moment from "moment"
@@ -40,9 +40,18 @@ const EditNoticia = (props) => {
     const [showLinkInput, setShowLinkInput] = useState(false)
     const [arrayImgUrl, setArrayImgUrl] = useState([])
     const [actualPhoto, setActualPhoto] = useState("")
+    const [deletePreviousPhotos, setDeletePreviousPhoto] = useState(false)
 
     const onFinish = async values => {
         setShowErrors(false)
+
+        if(arrayImgUrl.length === 0 && deletePreviousPhotos)
+        {            
+            setShowErrors(true)
+            setShowMsg("Es necesario agregar imagenes")
+            return false;
+        }
+
         let result = await editNoticiaService({...values,noticiaId, imgArray: arrayImgUrl, img: actualPhoto})
         if(result.status === 201){
             successMsg();
@@ -61,11 +70,15 @@ const EditNoticia = (props) => {
         console.log(showLinkInput)
     }
 
+    const onChangeRadio = (e) => {
+        setDeletePreviousPhoto(e.target.value)
+    }
+
     useEffect(()=> {
         async function getNoticia(){
             let {data: result} = await getNoticiaService(noticiaId);
-            console.log(result.fechaParaPublicacion)
-            setCurrentNoticia(result)  
+            setCurrentNoticia(result)
+            setShowLinkInput(result.tipoPresentacion === "Video" ? true : false)
         }
         
         getNoticia()
@@ -173,9 +186,21 @@ const EditNoticia = (props) => {
                 <UploadPhotos setArrayPhotos={setArrayImgUrl} setPhotos={setActualPhoto}></UploadPhotos>
             </Form.Item>
 
+            <Form.Item
+                name="borrarPhoto"
+                label="Eliminar Imagenes Anteriores"
+                initialValue={false}
+            >
+                <Radio.Group onChange={onChangeRadio}>
+                    <Radio.Button value={false}>Añadir</Radio.Button>
+                    <Radio.Button value={true}>Reemplazar</Radio.Button>
+                </Radio.Group>
+            </Form.Item>
+
             <Row justify="start">
-                <Col {...tailFormItemLayout}>
-                    <Title level={5} type="keyboard">Las imagenes nuevas se añaden</Title>
+                <Col>
+                    {!deletePreviousPhotos && <Title level={5} type="keyboard">Las imagenes nuevas se añaden</Title>}
+                    {deletePreviousPhotos && <Title level={5} type="danger">Las imagenes nuevas reemplazan</Title>}
                 </Col>
             </Row>
             

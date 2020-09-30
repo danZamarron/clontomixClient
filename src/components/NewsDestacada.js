@@ -26,10 +26,9 @@ const NewsDestacada = () => {
         height: '160px',
         color: '#fff',
         lineHeight: '160px',
-        textAlign: 'center',
-        background: "#45b4df",        
-        objectPosition: "center",
-        objectFit: "cover"
+        display:"flex",
+        justifyContent:"space-around",
+        background: "#45b4df"
       };
 
         if(loading)
@@ -39,6 +38,8 @@ const NewsDestacada = () => {
         return <></> 
 
         if (!loading && dataNews)
+        {
+        console.log(dataNews)
         return (
             <>
                 <Row justify="center" gutter={30}>
@@ -52,8 +53,9 @@ const NewsDestacada = () => {
                         <Carousel autoplay>
                             {dataNews?.map(cNews => (
                                 <Link to={`/noticia/${cNews.idNoticia._id}`}>
-                                <div name="Hola" key={cNews._id}>
-                                    <h3 style={contentStyle}>{cNews.idNoticia.titulo}</h3>
+                                <div name="Hola" key={cNews._id} style={contentStyle}>
+                                    <img alt="" src={cNews.idNoticia.img} style={{height:"160px"}}></img>
+                                    <h3 >{cNews.idNoticia.titulo}</h3>
                                 </div>
                                 </Link>
                             ))}
@@ -62,8 +64,9 @@ const NewsDestacada = () => {
                 </Row>
             </>
         )
-
+        }
         return (<></>)
+                            
 }
     
 

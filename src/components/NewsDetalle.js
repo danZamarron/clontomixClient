@@ -24,15 +24,15 @@ const { Title, Text } = Typography;
                             (
                                 <center>
                                     <img 
-                                    style={{marginTop:"30px"}}
+                                    style={{marginTop:"30px", width:"100%"}}
                                         alt="example"
-                                        src={noticia.imgArray?.[0]}
+                                        src={noticia.img}
                                     />
                                 </center>
                             ) 
                             :
                             (
-                                <center><ReactPlayer url='https://youtu.be/n25nqibaIDg' style={{marginTop:"30px"}} light={true}/></center>
+                                <center><ReactPlayer url={noticia.ytLink} style={{marginTop:"30px"}} light={true}/></center>
                             )
                         }
                     

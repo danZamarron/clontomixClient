@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row, Col, Typography, Card, Divider, Image} from "antd"
+import {Row, Col, Typography, Card, Divider} from "antd"
 import ReactPlayer from "react-player"
 import { Link } from "react-router-dom"
 import { DateTime } from "luxon"
@@ -24,15 +24,15 @@ const { Title, Text } = Typography;
                             (
                                 <center>
                                     <img 
-                                    style={{marginTop:"30px"}}
+                                        style={{marginTop:"30px", width:"100%"}}
                                         alt="example"
-                                        src={noticia.imgArray?.[0]}
+                                        src={noticia?.img}
                                     />
                                 </center>
                             ) 
                             :
                             (
-                                <center><ReactPlayer url='https://youtu.be/n25nqibaIDg' style={{marginTop:"30px"}} light={true}/></center>
+                                <center><ReactPlayer url={noticia?.ytLink} style={{marginTop:"30px"}}/></center>
                             )
                         }
                     
