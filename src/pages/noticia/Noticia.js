@@ -1,11 +1,13 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect, useRef, useContext} from 'react'
 import NewComment from "../../components/NewComment"
 import {Button, Row, Col, Typography, Divider, Modal} from 'antd'; 
+import NewsDetalle from "../../components/NewsDetalle"
+import NewsComments from "../../components/NewsComments"
 import {getNoticiaService} from "../../services/noticia"
-import { useSWRInfinite } from "swr"
+import { Link } from "react-router-dom"
+import { MyContext } from "../../context"
 
 const { Title } = Typography;
-const fetcher = url => fetch(url).then(r => r.json())
 
 const Noticia = (props) => {
 
@@ -14,6 +16,7 @@ const Noticia = (props) => {
     const [showModalAgregar, setShowModalAgregar] = useState(false)
     const [addedComment, setAddedComment] = useState(false)
     const childRef = useRef();
+    const { user } = useContext(MyContext)
 
 
     useEffect(()=> {
@@ -29,51 +32,72 @@ const Noticia = (props) => {
     return (
         (currentNoticia && currentNoticia.noticiaAprobada) ? (
             <>
-                <Row gutter={[16,16]}>
-                    <Col xs={24}>
-                        <Title level={2}>{currentNoticia.titulo}</Title>
-                    </Col>
-                </Row>
-                <Row gutter={[16,16]}>
-                    <Col xs={24}>
-                        <Title level={2}>{currentNoticia.contenido}</Title>
-                    </Col>
-                </Row>
-                <Divider/>
 
-                    <Button block onClick={() => setShowModalAgregar(true)}>
-                        Agrega un Comentario
-                    </Button>
+                <NewsDetalle news={currentNoticia}/>                
+                
+                <Row gutter={[16,16]}>
+                    <Col sm={24} md={{span:16, offset:4}}>                    
+                        <Divider/>
+                    </Col>
+                </Row>
+
+                    <Row gutter={[16,16]}>
+                        <Col sm={24} md={{span:16, offset:4}}>
+
+                            
+
+                             {!user ? 
+                                (
+                                    <Link to="/login">
+                                        <Button type='primary' block>
+                                            Necesitas hacer login para escribir comentarios
+                                        </Button>
+                                    </Link>
+                                ) : 
+                                (
+                                    <>
+                                    <Button block type="primary" onClick={() => setShowModalAgregar(true)}>
+                                        Agrega un Comentario
+                                    </Button>
+
+                                    <Modal
+                                        centered
+                                        title={'Agrega Comentario a ' + currentNoticia.titulo}
+                                        visible={showModalAgregar}
+                                        onCancel={() => setShowModalAgregar(false)}
+                                        onOk={() => {
+                                            childRef.current.showAlert()
+                                        }}
+                                        width={700}
+
+                                    >
+                                        <NewComment ref={childRef} 
+                                                    noticiaId={currentNoticia._id} 
+                                                    titulo={currentNoticia.titulo} 
+                                                    closeModal={setShowModalAgregar} 
+                                                    addedComment={setAddedComment} />
+                                    </Modal>
+                                    </>
+                                )
+                             } 
+                        </Col>
+                    </Row>
                     
-                    <Modal
-                        centered
-                        title={'Agrega Comentario a ' + currentNoticia.titulo}
-                        visible={showModalAgregar}
-                        onCancel={() => setShowModalAgregar(false)}
-                        onOk={() => {
-                            childRef.current.showAlert()
-                        }}
-                        width={700}
-
-                    >
-                        <NewComment ref={childRef} 
-                                    noticiaId={currentNoticia._id} 
-                                    titulo={currentNoticia.titulo} 
-                                    closeModal={setShowModalAgregar} 
-                                    addedComment={setAddedComment} />
-                    </Modal>
-
-                <Divider/>
+                <Row gutter={[16,16]}>
+                    <Col sm={24} md={{span:16, offset:4}}>                    
+                        <Divider/>
+                    </Col>
+                </Row>
 
                 <Row gutter={[16,16]}>
-                    <Col xs={24}>
+                    <Col sm={24} md={{span:16, offset:4}}>
                         <Title level={4}>Comentarios</Title>
                     </Col>
                 </Row>
 
-                {currentNoticia.idComentarios.flat()?.map(comment => (
-                    <h4 key={comment._id}>{comment.comentario} por {comment.idUser.username}</h4>
-                ))}
+                {currentNoticia.idComentarios.flat()?.map(comment => {                   
+                    return <NewsComments key={comment._id} values={comment}/>
+                })}
 
             </>
         )

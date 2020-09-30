@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react'
 import { Form, Input, Button, Divider, Row, Col, Typography, message} from 'antd';
-import { MailOutlined, LockOutlined } from '@ant-design/icons';
+import { MailOutlined, LockOutlined, GoogleOutlined } from '@ant-design/icons';
 import {loginService} from "../../services/auth"
 import { MyContext } from "../../context"
 
@@ -8,16 +8,9 @@ let baseURL
 const { Title } = Typography;
 const successMsg = (username) => message.success(`Gracias por entrar ${username}`);
 
-// process.env.NODE_ENV === "production"
-//   ? (baseURL = "https://murmuring-reaches-95521.herokuapp.com")
-//   : (baseURL = "http://localhost:4000")
-
 process.env.NODE_ENV === "production"
-  ? (baseURL = process.env.REACT_APP_REMOTEURL)
+  ? (baseURL = "/")
   : (baseURL = process.env.REACT_APP_LOCALHOST)
-
-    
-
 
   const tailFormItemLayout = {
     wrapperCol: {
@@ -112,14 +105,11 @@ const Login = (props) => {
 
         <Row>
             <Col xs={24} sm={{span:12, offset:6}} >
-            <Button danger type='primary' block style={{ marginTop:"20px"}}>
-                <div style={{display:"flex", justifyContent:"center"}}>
-                    <span><strong>G</strong></span>
-                    <a style={{marginLeft:"30px", color: "white", textDecoration: "none !important"}}href={`${baseURL}/auth/google`}>
-                        Login con Google
-                    </a>
-                </div>
-            </Button>
+            <a style={{color: "white", textDecoration: "none !important"}}href={`${baseURL}auth/google`}>
+                <Button danger type='primary' block style={{ marginTop:"20px"}}>
+                <GoogleOutlined />Login con Google
+                </Button>
+            </a>
             </Col>
         </Row>
 

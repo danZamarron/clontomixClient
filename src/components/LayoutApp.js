@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react'
 import { Layout, Menu, message, Col, Row, Typography} from 'antd';
-import { Link, NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 import {
   DesktopOutlined,
   PieChartOutlined,
@@ -32,7 +32,14 @@ const LayoutApp = ({children}) => {
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
-          <Sider collapsible collapsed={collapsedSlider} onCollapse={toCollapse}>
+          <Sider 
+          style={{
+            overflow: 'auto',
+            height: '100vh',
+            position: 'fixed',
+            left: 0,
+          }}          
+          >
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
               <Menu.Item key="1" icon={<PieChartOutlined />}>
                 <Link to='/'>Home</Link>
@@ -56,11 +63,12 @@ const LayoutApp = ({children}) => {
               </SubMenu>}
               {user && user.roleType === "Admin" && <SubMenu key="sub2" icon={<UserOutlined />} title="Admin Menu">
                 <Menu.Item key="200"><Link to='/admin/aprobarNoticia'>Aprobar Noticia</Link></Menu.Item>
+                <Menu.Item key="201"><Link to='/admin/destacarNoticia'>Destacar Noticia</Link></Menu.Item>
               </SubMenu>}
               <Menu.Item key="9" icon={<FileOutlined />}><Link to='/logout'>Algo aqui</Link></Menu.Item>
             </Menu>
           </Sider>
-          <Layout className="site-layout">
+          <Layout className="site-layout" style={{ marginLeft: 200 }}>
             <Header className="site-layout-background" style={{ padding: 0, backgroundColor: 'rgb(100,100,100,1)' }}>
                 <Row justify = "center" align="middle">
                   <Col>
@@ -68,7 +76,7 @@ const LayoutApp = ({children}) => {
                   </Col>
                 </Row>
             </Header>
-            <Content style={{ margin: '0 16px' }}>
+            <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
               <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
                 {children}
               </div>

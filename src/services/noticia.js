@@ -3,7 +3,7 @@ import axios from "axios"
 let baseURL;
 
 process.env.NODE_ENV === "production"
-  ? (baseURL = process.env.REACT_APP_REMOTEURL)
+  ? (baseURL = "/")
   : (baseURL = process.env.REACT_APP_LOCALHOST)
 
 baseURL = baseURL + "api/noticia"
@@ -60,6 +60,12 @@ export const getAllNoticiasNotApprovedService = async () => {
 
 export const approveNoticiaService = async noticiaId => {
   return await service.put(`/approved/${noticiaId}`).catch(err => {
+      return {message: err.response?.data?.message, status: err?.status}
+  })
+}
+
+export const getAllNoticiasDestacadasService = async () => {
+  return await service.get(`/noticiasDestacadas`).catch(err => {
       return {message: err.response?.data?.message, status: err?.status}
   })
 }

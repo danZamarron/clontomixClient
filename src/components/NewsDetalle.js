@@ -1,6 +1,6 @@
 import React from 'react'
-import {Row, Col, Typography, Card, Divider} from "antd"
-import { Link } from "react-router-dom"
+import {Row, Col, Typography, Card, Divider, Image} from "antd"
+import ReactPlayer from "react-player"
 import { DateTime } from "luxon"
 
 const { Title, Text } = Typography;
@@ -20,13 +20,41 @@ const { Title, Text } = Typography;
                         bordered={false}
                         cover=
                         {
-                            true ? (<div>Imagen</div>) :(<div>Video</div>)
+                            (noticia.tipoPresentacion === "Imagen") ? 
+                            (
+                                <center>
+                                    <img 
+                                    style={{marginTop:"30px"}}
+                                        alt="example"
+                                        src={noticia.imgArray?.[0]}
+                                    />
+                                </center>
+                            ) 
+                            :
+                            (
+                                <center><ReactPlayer url='https://youtu.be/n25nqibaIDg' style={{marginTop:"30px"}} light={true}/></center>
+                            )
                         }
                     
                     >
                         <Row gutter={[0, 50]}>
                             <Col>
                                 <p style={{fontSize:"16px"}}>{noticia.contenido}</p>
+                            </Col>
+                        </Row>                        
+                        <Row gutter={[0, 50]}>
+                            <Col>
+                                {
+                                    noticia.imgArray.map(img => (
+                                        
+                                        <Image
+                                            style={{marginLeft:"20px"}}
+                                            width={100}
+                                            height={100}
+                                            src={img}
+                                        />
+                                    ))
+                                }
                             </Col>
                         </Row>
                         <Divider></Divider>

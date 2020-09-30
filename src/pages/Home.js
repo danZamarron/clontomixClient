@@ -1,14 +1,15 @@
 import React, {useEffect} from 'react'
-import {Typography, Row, Col} from "antd"
+import {Typography, Row, Col, Divider ,Button} from "antd"
 import { useSWRInfinite } from "swr"
 import NewsTemplate from "../components/NewsTemplate"
+import NewsDestacada from "../components/NewsDestacada"
 
 const { Title } = Typography;
 const fetcher = url => fetch(url).then(r => r.json())
 const PAGE_SIZE = 10;
 let baseURL;
 process.env.NODE_ENV === "production"
-? (baseURL = process.env.REMOTEURL)
+? (baseURL = "/")
 : (baseURL = process.env.REACT_APP_LOCALHOST)
 console.log(baseURL)
 
@@ -38,23 +39,42 @@ const Home = () => {
       ) : (
         <>
             <div>
+                <NewsDestacada/>
+            </div>
+
+            <Divider/>
+
+            <div>
                 <Row justify="center" gutter={30}>
-                    <Col just>
+                    <Col>
                         <Title level={1}>Noticias:</Title>
                     </Col>
                 </Row>
 
                 {news?.flat()?.map(cNews => (
-                    <NewsTemplate news={cNews}></NewsTemplate>
+                    <NewsTemplate key={cNews._id} news={cNews}></NewsTemplate>
                    
                 ))}
             </div>
             <div>
-                {isLoadingMore
-                ? "loading..."
-                : isReachingEnd
-                ? "no more issues"
-                : "load more"}
+
+                <Row justify="center" gutter={30}>
+                    <Col>
+                    <Button 
+                        type="primary"
+                        disabled={isLoadingMore || isReachingEnd}
+                        onClick={() => setSize(size + 1)}
+                        >
+                        {
+                            isLoadingMore
+                            ? "loading..."
+                            : isReachingEnd
+                            ? "No mas noticias..."
+                            : "Cargar mas noticias"
+                        }
+                    </Button>
+                    </Col>
+                </Row>
             </div>
         </>
       )

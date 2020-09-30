@@ -1,5 +1,6 @@
 import React from 'react'
-import {Row, Col, Typography, Card, Divider} from "antd"
+import {Row, Col, Typography, Card, Divider, Image} from "antd"
+import ReactPlayer from "react-player"
 import { Link } from "react-router-dom"
 import { DateTime } from "luxon"
 
@@ -12,14 +13,27 @@ const { Title, Text } = Typography;
     return (
         <>
             <Col sm={24} md={{span:16, offset:4}}>
-                <Link to={`/noticia/${noticia._id}`}>
+                
                     <Card 
-                        style={{marginBottom:"30px", maxHeight:"400px"}}
-                        title={noticia.titulo} 
+                        style={{marginBottom:"30px", minHeight:"400px"}}
+                        title={<Title level={3}>{noticia.titulo}</Title>} 
                         bordered={false}
                         cover=
                         {
-                            true ? (<div>algo</div>) :(<div>algo</div>)
+                            (noticia.tipoPresentacion === "Imagen") ? 
+                            (
+                                <center>
+                                    <img 
+                                    style={{marginTop:"30px"}}
+                                        alt="example"
+                                        src={noticia.imgArray?.[0]}
+                                    />
+                                </center>
+                            ) 
+                            :
+                            (
+                                <center><ReactPlayer url='https://youtu.be/n25nqibaIDg' style={{marginTop:"30px"}} light={true}/></center>
+                            )
                         }
                     
                     >
@@ -45,8 +59,16 @@ const { Title, Text } = Typography;
                                 <Text strong>Tipo de Noticia:</Text> {noticia.tipoNoticia}
                             </Col>
                         </Row>
-                    </Card>
-                </Link>
+                        <Row gutter={20}>
+                            <Col justify="center" align="middle"  style={{marginTop:"20px"}}span={24}>
+                                <Title level={3}>
+                                    <Link to={`/noticia/${noticia._id}`}>
+                                        Ir a leer la noticia
+                                    </Link>
+                                </Title> 
+                            </Col>
+                        </Row>
+                </Card>
             </Col>
         </>
     )

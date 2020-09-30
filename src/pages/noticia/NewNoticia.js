@@ -1,7 +1,11 @@
-import React, {useState} from 'react'
-import {Form, Input, Button, Row, Col, Typography, DatePicker, Select, message, Space} from 'antd'; 
+import React, {useState, useContext} from 'react'
+import {Form, Input, Button, Row, Col, Typography, DatePicker, Select, message} from 'antd'; 
+import UploadPhotos from "../../components/UploadPhotos"
 import {addNoticiaService} from "../../services/noticia"
 import moment from "moment"
+
+import { Redirect } from "react-router-dom"
+import { MyContext } from "../../context"
 
 const { TextArea } = Input;
 const { Option } = Select
@@ -30,9 +34,22 @@ const NewNoticia = (props) => {
     const [showErrors, setShowErrors] = useState(false)
     const [showMsg, setShowMsg] = useState("")
 
+    const [showLinkInput, setShowLinkInput] = useState(false)
+    const [arrayImgUrl, setArrayImgUrl] = useState([])
+    const [actualPhoto, setActualPhoto] = useState("")
+    const { user } = useContext(MyContext)
+
     const onFinish = async values => {
         setShowErrors(false)
-        let result = await addNoticiaService(values)
+
+        if(arrayImgUrl.length === 0 && values.tipoPresentacion === "Imagen")
+        {            
+            setShowErrors(true)
+            setShowMsg("Es necesario agregar imagenes")
+            return false;
+        }
+
+        let result = await addNoticiaService({...values, imgArray: arrayImgUrl, img: actualPhoto})
         if(result.status === 200 || result.status === 201){
             successMsg();
             props.history.push("/")
@@ -45,6 +62,15 @@ const NewNoticia = (props) => {
         }
     };
     
+    const onChangeSelectTipoPresentacion = () => {
+        setShowLinkInput(!showLinkInput)
+        console.log(showLinkInput)
+    }
+
+    if(!user || (user && user.roleType === "User"))
+    {
+        return <Redirect to="/" />
+    }
 
     return (
         <div>
@@ -94,6 +120,33 @@ const NewNoticia = (props) => {
                         <Option value="Rumor">Rumor</Option>
                         <Option value="Review">Review </Option>
                     </Select>
+            </Form.Item>
+            <Form.Item
+                name="tipoPresentacion"
+                label="Tipo de Portada (Imagen o Video)"
+                initialValue="Imagen"
+                rules={[{ required: true, message: 'Es necesario escoger un tipo de presentacion' }]}
+            >
+                    <Select onChange={onChangeSelectTipoPresentacion}>
+                        <Option value="Imagen">Imagen</Option>
+                        <Option value="Video">Video</Option>
+                    </Select>
+            </Form.Item>
+
+            <Form.Item
+                name="ytLink"
+                label="Link de Video Youtube"
+                hidden={!showLinkInput}
+                rules={[{ required:(showLinkInput ? true : false), message: 'Favor de agregar un link', whitespace: true }]}
+            >
+                <Input />
+            </Form.Item>
+
+            <Form.Item
+                name="Imagenes"
+                label="Imagenes"
+            >
+                <UploadPhotos setArrayPhotos={setArrayImgUrl} setPhotos={setActualPhoto}></UploadPhotos>
             </Form.Item>
 
             

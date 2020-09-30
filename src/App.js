@@ -12,7 +12,8 @@ import {
   ListNoticias,
   Noticia,
   Profile,
-  AprobarNoticia
+  AprobarNoticia,
+  DestacarNoticia
 } from "./pages/index"
 
 
@@ -30,6 +31,7 @@ function App() {
           <Route exact path='/listNoticias' component={ListNoticias} />
           <Route exact path='/noticia/:noticiaId' component={Noticia} />
           <Route exact path='/admin/aprobarNoticia' component={AprobarNoticia} />
+          <Route exact path='/admin/destacarNoticia' component={DestacarNoticia} />
 
         </Switch>
       </LayoutApp>

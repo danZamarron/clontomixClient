@@ -1,7 +1,11 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import {Form, Input, Button, Row, Col, Typography, DatePicker, Select, message} from 'antd'; 
+import UploadPhotos from "../../components/UploadPhotos"
 import {getNoticiaService, editNoticiaService} from "../../services/noticia"
 import moment from "moment"
+
+import { Redirect } from "react-router-dom"
+import { MyContext } from "../../context"
 
 const { TextArea } = Input;
 const { Option } = Select
@@ -30,10 +34,16 @@ const EditNoticia = (props) => {
     const [showMsg, setShowMsg] = useState("")
     const [currentNoticia, setCurrentNoticia] = useState(null)
     const noticiaId = props.match.params.noticiaId;
+    const { user } = useContext(MyContext)
+
+    
+    const [showLinkInput, setShowLinkInput] = useState(false)
+    const [arrayImgUrl, setArrayImgUrl] = useState([])
+    const [actualPhoto, setActualPhoto] = useState("")
 
     const onFinish = async values => {
         setShowErrors(false)
-        let result = await editNoticiaService({...values,noticiaId})
+        let result = await editNoticiaService({...values,noticiaId, imgArray: arrayImgUrl, img: actualPhoto})
         if(result.status === 201){
             successMsg();
             props.history.push("/listNoticias")
@@ -46,20 +56,33 @@ const EditNoticia = (props) => {
         }
     };
 
+    const onChangeSelectTipoPresentacion = () => {
+        setShowLinkInput(!showLinkInput)
+        console.log(showLinkInput)
+    }
+
     useEffect(()=> {
         async function getNoticia(){
             let {data: result} = await getNoticiaService(noticiaId);
             console.log(result.fechaParaPublicacion)
-            setCurrentNoticia(result)
+            setCurrentNoticia(result)  
         }
         
         getNoticia()
+        console.log(user)
 
     }, [])
 
+
+    if(!user || (user && user.roleType === "User"))
+    {
+        return <Redirect to="/" />
+    }
+
+
     return (
-        currentNoticia ? (
-            
+        currentNoticia ? (            
+
         <div>
             <Row justify="center" gutter={16}>
                 <Col {...tailFormItemLayout}>
@@ -120,10 +143,46 @@ const EditNoticia = (props) => {
             </Form.Item>
 
             
+            <Form.Item
+                name="tipoPresentacion"
+                label="Tipo de Portada (Imagen o Video)"
+                initialValue = {currentNoticia.tipoPresentacion}
+                rules={[{ required: true, message: 'Es necesario escoger un tipo de presentacion' }]}
+            >
+                    <Select onChange={onChangeSelectTipoPresentacion}>
+                        <Option value="Imagen">Imagen</Option>
+                        <Option value="Video">Video</Option>
+                    </Select>
+            </Form.Item>
+
+            <Form.Item
+                name="ytLink"
+                label="Link de Video Youtube"
+                hidden={!showLinkInput}
+                initialValue = {currentNoticia.ytLink}
+                rules={[{ required:(showLinkInput ? true : false), message: 'Favor de agregar un link', whitespace: true }]}
+            >
+                <Input />
+            </Form.Item>
+
+
+            <Form.Item
+                name="Imagenes"
+                label="Imagenes"
+            >
+                <UploadPhotos setArrayPhotos={setArrayImgUrl} setPhotos={setActualPhoto}></UploadPhotos>
+            </Form.Item>
+
+            <Row justify="start">
+                <Col {...tailFormItemLayout}>
+                    <Title level={5} type="keyboard">Las imagenes nuevas se añaden</Title>
+                </Col>
+            </Row>
+            
             <Row justify="center">
-            <Col {...tailFormItemLayout}>
-                {showErrors && <Title level={5} type="warning">{showMsg}</Title>}
-            </Col>
+                <Col {...tailFormItemLayout}>
+                    {showErrors && <Title level={5} type="warning">{showMsg}</Title>}
+                </Col>
             </Row>
 
             <Form.Item {...tailFormItemLayout}>
