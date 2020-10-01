@@ -33,7 +33,6 @@ const SignUp = (props) => {
         }
         else
         {
-            console.log(result)
             setShowErrors(true)
             setShowMsg(result.message)
         }

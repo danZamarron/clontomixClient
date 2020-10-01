@@ -59,7 +59,6 @@ const EditNoticia = (props) => {
         }
         else
         {
-            console.log(result)
             setShowErrors(true)
             setShowMsg(result.message)
         }
@@ -67,7 +66,6 @@ const EditNoticia = (props) => {
 
     const onChangeSelectTipoPresentacion = () => {
         setShowLinkInput(!showLinkInput)
-        console.log(showLinkInput)
     }
 
     const onChangeRadio = (e) => {
@@ -82,7 +80,6 @@ const EditNoticia = (props) => {
         }
         
         getNoticia()
-        console.log(user)
 
     }, [])
 

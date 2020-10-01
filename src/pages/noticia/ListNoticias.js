@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { Link } from "react-router-dom"
-import { Table, Space, Modal, Button, Row, Col, Typography } from 'antd';
+import { Table, Space, Modal, Button, Row, Col, Typography, message } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import {getAllNoticiasByUserParamService, deleteNoticiaService } from "../../services/noticia"
 import { MyContext } from "../../context"
@@ -10,6 +10,7 @@ const dateFormat = 'DD/MM/YYYY';
 const { Column } = Table;
 const { confirm } = Modal;
 const { Title } = Typography;
+const successMsg = () => message.success('Se elimino la noticia satisfactoriamente');
 const tailFormItemLayout = {
   wrapperCol: {
     xs: {
@@ -27,11 +28,7 @@ async function deleteNoticia(noticiaId)
 {
     let result = await deleteNoticiaService(noticiaId)
     if(result.status === 200)
-        alert("Todo bien")
-    else
-    {
-        console.log(result)
-    }
+        successMsg()
 }
 
 const ListNoticias = () => {

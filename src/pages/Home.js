@@ -6,38 +6,43 @@ import NewsDestacada from "../components/NewsDestacada"
 
 const { Title } = Typography;
 const fetcher = url => fetch(url).then(r => r.json())
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 let baseURL;
 process.env.NODE_ENV === "production"
 ? (baseURL = "/")
 : (baseURL = process.env.REACT_APP_LOCALHOST)
-console.log(baseURL)
 
 const Home = () => {
     
     const { data, error, mutate, size, setSize, isValidating } = useSWRInfinite((index, previousPageData) => {
+        console.log(previousPageData)
         if (previousPageData && previousPageData.length === 0) 
             return null
 
         return `${baseURL}api/noticia/pagination?page=${index}`
     }, fetcher)
 
+    debugger;
+
     const news = data ? data.map(({ noticias }) => noticias) : []
     const isLoadingInitialData = !data && !error;
     const isLoadingMore = isLoadingInitialData ||
                           (size > 0 && data && typeof data[size - 1] === "undefined");
-    const isEmpty = data?.[0]?.length === 0;
-    const isReachingEnd = isEmpty || 
-                          (data && data?.length < PAGE_SIZE);
     
-    console.log(news)
-                        /* <h4 key={cNews._id}><Link to={`/noticia/${cNews._id}`}>{cNews.titulo}</Link></h4> 
-                         
-                         */
+    const isEmpty = data?.[size - 1]?.noticias?.length === 0; //{"noticias":[]} <- Vacio
+    const isReachingEnd = isEmpty || (typeof data?.[size - 1] === "object" && data?.[size - 1]?.noticias?.length < PAGE_SIZE);
+
     return !data ? (
         <p>Loading...</p>
       ) : (
         <>
+            <div>
+                <h1>{isLoadingInitialData}</h1>
+                <h1>{isLoadingMore}</h1>
+                <h1>{isEmpty}</h1>
+                <h1>{isReachingEnd}</h1>
+            </div>
+
             <div>
                 <NewsDestacada/>
             </div>
@@ -67,10 +72,10 @@ const Home = () => {
                         >
                         {
                             isLoadingMore
-                            ? "loading..."
+                            ? "Cargando..."
                             : isReachingEnd
-                            ? "No mas noticias..."
-                            : "Cargar mas noticias"
+                                ? "No hay mas noticias..."
+                                : "Cargar mas noticias"
                         }
                     </Button>
                     </Col>

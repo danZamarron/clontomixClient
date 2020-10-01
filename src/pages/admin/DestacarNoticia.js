@@ -29,10 +29,6 @@ const addNoticiaD = async (noticiaId) =>
     let result = await addNoticiaDestacadaService(noticiaId)
     if(result.status === 200)
         successMsg();
-    else
-    {
-        console.log(result)
-    }
 }
 
 const deleteNoticiaD = async (destacadoId) =>
@@ -40,10 +36,6 @@ const deleteNoticiaD = async (destacadoId) =>
     let result = await deleteNoticiaDestacada(destacadoId)
     if(result.status === 200)
         successMsgDelete();
-    else
-    {
-        console.log(result)
-    }
 }
 
 const DestacarNoticia = () => {

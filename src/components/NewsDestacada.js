@@ -39,7 +39,6 @@ const NewsDestacada = () => {
 
         if (!loading && dataNews)
         {
-        console.log(dataNews)
         return (
             <>
                 <Row justify="center" gutter={30}>
@@ -52,7 +51,7 @@ const NewsDestacada = () => {
                     <Col sm={24} md={{span:16}}>
                         <Carousel autoplay>
                             {dataNews?.map(cNews => (
-                                <Link to={`/noticia/${cNews.idNoticia._id}`}>
+                                <Link key={cNews._id} to={`/noticia/${cNews.idNoticia._id}`}>
                                 <div name="Hola" key={cNews._id} style={contentStyle}>
                                     <img alt="" src={cNews.idNoticia.img} style={{height:"160px"}}></img>
                                     <h3 >{cNews.idNoticia.titulo}</h3>

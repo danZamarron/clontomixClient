@@ -56,7 +56,6 @@ const NewNoticia = (props) => {
         }
         else
         {
-            console.log(result)
             setShowErrors(true)
             setShowMsg(result.message)
         }
@@ -64,7 +63,6 @@ const NewNoticia = (props) => {
     
     const onChangeSelectTipoPresentacion = () => {
         setShowLinkInput(!showLinkInput)
-        console.log(showLinkInput)
     }
 
     if(!user || (user && user.roleType === "User"))

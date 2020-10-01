@@ -20,11 +20,6 @@ export default function Provider({ children }) {
 
   useEffect(() => {
     
-    if(!user)
-      console.log(`Se logeo el user ${user}`)
-    else
-      console.log(`loggeado ${user}`)
-    
   }, [user])
 
   return (

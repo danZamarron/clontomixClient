@@ -13,7 +13,8 @@ import {
   Noticia,
   Profile,
   AprobarNoticia,
-  DestacarNoticia
+  DestacarNoticia,
+  UserTaken
 } from "./pages/index"
 
 
@@ -33,6 +34,7 @@ function App() {
           <Route exact path='/admin/aprobarNoticia' component={AprobarNoticia} />
           <Route exact path='/admin/destacarNoticia' component={DestacarNoticia} />
 
+          <Route exact path='/errGoogleLogin' component={UserTaken} />
         </Switch>
       </LayoutApp>
   </Router>

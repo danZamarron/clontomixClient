@@ -56,7 +56,6 @@ const Profile = () => {
         }
         else
         {
-            console.log(result)
             setShowErrors(true)
             setShowMsg(result.message)
         }
@@ -83,7 +82,6 @@ const Profile = () => {
         }
         else
         {
-            console.log(result)
             setShowErrors(true)
             setShowMsg(result.message)
         }

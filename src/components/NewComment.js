@@ -23,7 +23,6 @@ const NewComment = forwardRef((props, ref) => {
 
      useEffect(() => {
         return function cleanup() {
-            console.log("dismount")
             form.resetFields(["comentario"])
         };
       });
@@ -39,7 +38,6 @@ const NewComment = forwardRef((props, ref) => {
         }
         else
         {
-            console.log(result)
             setShowErrors(true)
             setShowMsg(result.message)
         }

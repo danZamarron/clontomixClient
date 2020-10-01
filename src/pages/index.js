@@ -11,3 +11,5 @@ export {default as Noticia} from "./noticia/Noticia"
 
 export {default as AprobarNoticia} from "./admin/AprobarNoticia"
 export {default as DestacarNoticia} from "./admin/DestacarNoticia"
+
+export {default as UserTaken} from "./error/UserTaken"

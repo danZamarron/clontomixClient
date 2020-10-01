@@ -24,7 +24,6 @@ const EditComment = forwardRef((props, ref) => {
 
      useEffect(() => {
         return function cleanup() {
-            console.log("dismount")
             form.resetFields(["comentario"])
         };
       }, [_id]);
@@ -40,7 +39,6 @@ const EditComment = forwardRef((props, ref) => {
         }
         else
         {
-            console.log(result)
             setShowErrors(true)
             setShowMsg(result.message)
         }

@@ -42,7 +42,6 @@ const Login = (props) => {
             }
             else
             {
-                console.log(result)
                 setShowErrors(true)
                 setShowMsg(result.message)
             }

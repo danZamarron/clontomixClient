@@ -28,10 +28,6 @@ const approveNoticia = async (noticiaId) =>
     let result = await approveNoticiaService(noticiaId)
     if(result.status === 200)
         successMsg();
-    else
-    {
-        console.log(result)
-    }
 }
 
 const AprobarNoticia = () => {
@@ -101,7 +97,7 @@ const AprobarNoticia = () => {
                 key="Aprobar"
                 render={(text, record) => (
                     <Space size="middle">
-                    <Button onClick={() => showApproveConfirm(record)} primary type="dashed">
+                    <Button onClick={() => showApproveConfirm(record)}  type="primary">
                         Aprobar Noticia
                     </Button>
                     </Space>
