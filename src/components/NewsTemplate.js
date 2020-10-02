@@ -32,7 +32,7 @@ const { Title, Text } = Typography;
                             ) 
                             :
                             (
-                                <center><ReactPlayer url={noticia?.ytLink} style={{marginTop:"30px"}}/></center>
+                                <center><ReactPlayer url={noticia?.ytLink} style={{marginTop:"30px", width:"100%"}}/></center>
                             )
                         }
                     

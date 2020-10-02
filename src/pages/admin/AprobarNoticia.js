@@ -26,7 +26,8 @@ const tailFormItemLayout = {
 const approveNoticia = async (noticiaId) =>
 {
     let result = await approveNoticiaService(noticiaId)
-    if(result.status === 200)
+    debugger;
+    if(result.status === 200  || result.status === 201)
         successMsg();
 }
 

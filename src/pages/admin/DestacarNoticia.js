@@ -27,7 +27,7 @@ const tailFormItemLayout = {
 const addNoticiaD = async (noticiaId) =>
 {
     let result = await addNoticiaDestacadaService(noticiaId)
-    if(result.status === 200)
+    if(result.status === 200 || result.status === 201)
         successMsg();
 }
 

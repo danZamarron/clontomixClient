@@ -27,7 +27,7 @@ const tailFormItemLayout = {
 async function deleteNoticia(noticiaId)
 {
     let result = await deleteNoticiaService(noticiaId)
-    if(result.status === 200)
+    if(result.status === 200 || result.status === 201)
         successMsg()
 }
 
